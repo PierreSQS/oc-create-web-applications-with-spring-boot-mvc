@@ -47,25 +47,11 @@
 		        </tr>
 		    </thead>
 			<tbody>
-				<tr>
-		            <td>Avatar</td>
-		            <td>7.8</td>
-		            <td>LOW</td>
-		            <td>Peter recommended</td>
-					<td><a href="#" class="btn btn-info" role="button">Update</a></td>
-				</tr>
-				<tr>
-		            <td>Inception</td>
-		            <td>8.7</td>
-		            <td>MEDIUM</td>
-		            <td>YouTube trailer was just awesome!</td>
-					<td><a href="#" class="btn btn-info" role="button">Update</a></td>
-				</tr>
-				<tr>
-		            <td>The Emoji Movie</td>
-		            <td>3.2</td>
-		            <td>HIGH</td>
-		            <td>The boss recommended, have to see it!</td>
+				<tr th:each="watchlistItem:${watchlistItems}">
+		            <td th:text="${watchlistItem.title}">Avatar</td>
+		            <td th:text="${watchlistItem.rating}">7.8</td>
+		            <td th:text="${watchlistItem.priority}">LOW</td>
+		            <td th:text="${watchlistItem.comment}">Peter recommended</td>
 					<td><a href="#" class="btn btn-info" role="button">Update</a></td>
 				</tr>
 			</tbody>
