@@ -15,7 +15,7 @@ import com.pierrot.oc.entities.WatchlistItem;
 
 @Controller
 public class WatchlistController {
-	private List<WatchlistItem> watchItemsList;
+	private List<WatchlistItem> watchItemsList = new ArrayList<>();
 
 	@GetMapping("/watchlist")
 	public ModelAndView getWatchList() {
@@ -23,18 +23,12 @@ public class WatchlistController {
 		// the view Name
 		String viewName = "watchlist";
 
-		watchItemsList = new ArrayList<>();
-
 		// initializing the data of the model
-		// watchItemsList.clear();
-		// watchItemsList.add(new WatchlistItem("The Godfather", "8.5", "high", "this is
-		// a must!"));
-		// watchItemsList.add(new WatchlistItem("Le clan des siciliens", "8.0", "high",
-		// "a french mus"));
-		// watchItemsList.add(new WatchlistItem("Live and let die", "8.5", "high", "this
-		// is a must!"));
-		// watchItemsList.add(new WatchlistItem("Tatort", "2.5", "high", "booh to the
-		// germans!"));
+//		 watchItemsList.clear();
+		 watchItemsList.add(new WatchlistItem("The Godfather", "8.5", "high", "this is a must!"));
+		 watchItemsList.add(new WatchlistItem("Le clan des siciliens", "8.0", "high","a french mus"));
+		 watchItemsList.add(new WatchlistItem("Live and let die", "8.5", "high", "Kananga is the best!"));
+		 watchItemsList.add(new WatchlistItem("Tatort", "2.5", "high", "booh to the germans!"));
 
 		Map<String, Object> model = new HashMap<>();
 
@@ -52,10 +46,11 @@ public class WatchlistController {
 		// the view Name
 		String viewName = "watchlistItemForm";
 
-		// initializing the model and the data
+		// initializing the model and fetching the data into the model
 		Map<String, Object> model = new HashMap<>();
 
 		// initializing data with empty object -> empty form
+		// and fetching the data into the model
 		model.put("watchlistItem", new WatchlistItem());
 
 		return new ModelAndView(viewName, model);
@@ -68,7 +63,8 @@ public class WatchlistController {
 		// initializing the data
 		watchItemsList.add(watchlistItem);
 
-		// initializing the model
+		// initializing the model and fetching the watchlist Item
+		// from the Form into the model
 		Map<String, Object> model = new HashMap<>();
 		model.put("watchItemsList", watchItemsList);
 
