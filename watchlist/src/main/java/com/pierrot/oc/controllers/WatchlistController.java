@@ -75,12 +75,10 @@ public class WatchlistController {
 			// initializing the data
 			watchItemsList.add(watchlistItem);
 		} else {
-			// This are functional Errors.
-			// BUT THE TESTS ARE STILL WORKING!!!!!!!!
 			existingItem.setTitle(watchlistItem.getTitle());
-			existingItem.setTitle(watchlistItem.getRating());
-			existingItem.setTitle(watchlistItem.getPriority());
-			existingItem.setTitle(watchlistItem.getComment());
+			existingItem.setRating(watchlistItem.getRating());
+			existingItem.setPriority(watchlistItem.getPriority());
+			existingItem.setComment(watchlistItem.getComment());
 		}
 		// initializing the model and fetching the watchlist Item
 		// from the Form into the model
