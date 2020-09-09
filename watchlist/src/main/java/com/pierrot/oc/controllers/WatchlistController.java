@@ -8,11 +8,15 @@ import java.util.Map;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
 import com.pierrot.oc.entities.WatchlistItem;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @Controller
 public class WatchlistController {
 	private static List<WatchlistItem> watchItemsList = new ArrayList<>();
@@ -44,16 +48,19 @@ public class WatchlistController {
 	}
 
 	@GetMapping("/watchlistItemForm")
-	public ModelAndView showWatchListForm() {
+	public ModelAndView showWatchListForm(@RequestParam(required = false) Integer id) {
 		// the view Name
 		String viewName = "watchlistItemForm";
+		
+		WatchlistItem listItem = findItemById(id);
+		log.info("found List Item: "+listItem);
 
 		// initializing the model and fetching the data into the model
 		Map<String, Object> model = new HashMap<>();
 
 		// initializing data with empty object -> empty form
 		// and fetching the data into the model
-		model.put("watchlistItem", new WatchlistItem());
+		model.put("watchlistItem", listItem);
 
 		return new ModelAndView(viewName, model);
 
@@ -75,5 +82,9 @@ public class WatchlistController {
 
 		return new ModelAndView(redirectView, model);
 
+	}
+
+	private WatchlistItem findItemById(Integer id) {
+		return watchItemsList.stream().findFirst().orElse(new WatchlistItem());
 	}
 }

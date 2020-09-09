@@ -6,14 +6,14 @@ import lombok.Data;
 public class WatchlistItem {
 	private static int index;
 
-	private Integer Id;
+	private Integer id;
 	private String title;
 	private String rating;
 	private String priority;
 	private String comment;
 	
 	public WatchlistItem() {
-		this.Id = index++;
+		this.id = index++;
 	}
 
 	public WatchlistItem(String title, String rating, String priority, String comment) {
