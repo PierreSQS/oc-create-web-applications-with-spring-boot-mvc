@@ -85,6 +85,8 @@ public class WatchlistController {
 	}
 
 	private WatchlistItem findItemById(Integer id) {
-		return watchItemsList.stream().findFirst().orElse(new WatchlistItem());
+		return watchItemsList.stream()
+				.filter(item -> item.getId().equals(id))
+				.findFirst().orElse(new WatchlistItem());
 	}
 }
