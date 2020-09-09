@@ -45,7 +45,7 @@ class WatchlistControllerTest {
 		mockMvc.perform(post("/watchlistItemForm")
 				.param("title", "the Prinz of Zamunda")
 				.param("rating", "8.0")
-				.param("priority", "High")
+				.param("priority", "HIGH")
 				.param("comment", "the coolest Eddie Murphy"))		
 			.andExpect(status().is3xxRedirection())
 			.andExpect(model().size(1))

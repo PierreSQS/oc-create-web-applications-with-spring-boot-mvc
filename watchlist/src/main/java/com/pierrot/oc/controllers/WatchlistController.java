@@ -15,20 +15,22 @@ import com.pierrot.oc.entities.WatchlistItem;
 
 @Controller
 public class WatchlistController {
-	private List<WatchlistItem> watchItemsList = new ArrayList<>();
+	private static List<WatchlistItem> watchItemsList = new ArrayList<>();
+	
+	static {
+		// initializing the data of the model
+		 watchItemsList.clear();
+		 watchItemsList.add(new WatchlistItem("The Godfather", "8.5", "HIGH", "this is a must!"));
+		 watchItemsList.add(new WatchlistItem("Le clan des siciliens", "8.0", "HIGH","a french mus"));
+		 watchItemsList.add(new WatchlistItem("Live and let die", "8.5", "HIGH", "Kananga is the best!"));
+		 watchItemsList.add(new WatchlistItem("Tatort", "2.5", "LOW", "booh to the germans!"));
+	}
 
 	@GetMapping("/watchlist")
 	public ModelAndView getWatchList() {
 
 		// the view Name
 		String viewName = "watchlist";
-
-		// initializing the data of the model
-//		 watchItemsList.clear();
-		 watchItemsList.add(new WatchlistItem("The Godfather", "8.5", "high", "this is a must!"));
-		 watchItemsList.add(new WatchlistItem("Le clan des siciliens", "8.0", "high","a french mus"));
-		 watchItemsList.add(new WatchlistItem("Live and let die", "8.5", "high", "Kananga is the best!"));
-		 watchItemsList.add(new WatchlistItem("Tatort", "2.5", "high", "booh to the germans!"));
 
 		Map<String, Object> model = new HashMap<>();
 
