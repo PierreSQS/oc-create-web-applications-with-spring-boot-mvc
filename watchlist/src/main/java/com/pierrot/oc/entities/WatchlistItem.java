@@ -1,5 +1,8 @@
 package com.pierrot.oc.entities;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
+
 import lombok.Data;
 
 @Data
@@ -7,9 +10,14 @@ public class WatchlistItem {
 	private static int index;
 
 	private Integer id;
+	
+	@NotBlank( message="Please enter the title")
 	private String title;
 	private String rating;
 	private String priority;
+	
+	// Not activated yet	
+//	@Size(max=50,  message="Comment should be maximum 50 characters")
 	private String comment;
 	
 	public WatchlistItem() {

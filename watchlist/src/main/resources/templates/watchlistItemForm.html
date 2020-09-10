@@ -47,7 +47,7 @@
                   <input th:field="*{title}" type = "text" class = "form-control" placeholder = "Mandatory">
                </div>
                <div class="col-sm-4">
-        			<span class="text-danger"> </span>      
+        			<span class="text-danger" th:errors="*{title}"> </span>      
       			</div>
             </div>
             
