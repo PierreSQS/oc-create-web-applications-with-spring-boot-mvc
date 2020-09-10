@@ -46,10 +46,19 @@ class WatchlistControllerTest {
 				.param("title", "the Prinz of Zamunda")
 				.param("rating", "8.0")
 				.param("priority", "HIGH")
-				.param("comment", "the coolest Eddie Murphy"))		
+				.param("comment", "the coolest Eddie Murphy"))
+			.andExpect(model().hasNoErrors())
 			.andExpect(status().is3xxRedirection())
 			.andExpect(model().size(1))
 			.andExpect(content().string(containsString("")));
+//			.andDo(print());
+	}
+
+	@Test
+	void testSubmitWatchListItemFormWithoutParams() throws Exception {
+		mockMvc.perform(post("/watchlistItemForm"))	
+			.andExpect(model().hasErrors())
+			.andExpect(status().isOk());
 //			.andDo(print());
 	}
 

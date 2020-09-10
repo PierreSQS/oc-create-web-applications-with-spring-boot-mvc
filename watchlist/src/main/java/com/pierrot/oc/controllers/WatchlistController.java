@@ -73,7 +73,7 @@ public class WatchlistController {
 	public ModelAndView submitWatchlistItemForm(@Valid WatchlistItem watchlistItem, Errors errors) {
 		
 		if (errors.hasErrors()) {
-			new ModelAndView("watchlistItemForm");
+			return new ModelAndView("watchlistItemForm");
 		}
 		
 		WatchlistItem existingItem = findItemById(watchlistItem.getId());
