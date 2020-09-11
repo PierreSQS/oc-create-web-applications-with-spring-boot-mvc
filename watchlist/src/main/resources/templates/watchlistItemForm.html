@@ -57,7 +57,7 @@
                   <input th:field="*{rating}" type = "text" class = "form-control" placeholder = "5.0 < Number < 10.0">
                </div>
                <div class="col-sm-4">
-        			<span class="text-danger"> </span>      
+        			<span class="text-danger" th:errors="*{rating}"> </span>      
       			</div>
             </div>
                
@@ -67,7 +67,7 @@
                   <input th:field="*{priority}" type = "text" class = "form-control" placeholder = "Low|Medium|High">
                </div>
                <div class="col-sm-4">
-        			<span class="text-danger"> </span>      
+        			<span class="text-danger" th:errors="*{priority}"> </span>      
       			</div>
             </div>
                
@@ -77,7 +77,7 @@
                		<textarea  th:field="*{comment}"class = "form-control" rows = "3" placeholder = "Max. 50 chars"></textarea>
                </div>
                <div class="col-sm-4">
-        			<span class="text-danger"> </span>      
+        			<span class="text-danger" th:errors="*{comment}"> </span>      
       			</div>
             </div>
             

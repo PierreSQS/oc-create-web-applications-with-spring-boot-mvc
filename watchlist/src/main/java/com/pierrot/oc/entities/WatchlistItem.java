@@ -16,8 +16,8 @@ public class WatchlistItem {
 	private String rating;
 	private String priority;
 	
-	// Not activated yet	
-//	@Size(max=50,  message="Comment should be maximum 50 characters")
+
+	@Size(max=50,  message="Comment should be maximum 50 characters")
 	private String comment;
 	
 	public WatchlistItem() {

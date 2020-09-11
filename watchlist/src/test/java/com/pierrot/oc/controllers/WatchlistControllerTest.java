@@ -16,7 +16,13 @@ import org.springframework.test.web.servlet.MockMvc;
 
 @WebMvcTest(controllers = {WatchlistController.class})
 class WatchlistControllerTest {
-	
+
+	private static final String COMMENTHAS51CHARS = "abcdefghij\\n"
+													+ "abcdefghij\\n" 
+													+ "abcdefghij\\n" 
+													+ "abcdefghij\\n" 
+													+ "abcdefghij\\n" ;
+
 	@Autowired
 	private MockMvc mockMvc;
 	
@@ -58,8 +64,17 @@ class WatchlistControllerTest {
 	void testSubmitWatchListItemFormWithoutParams() throws Exception {
 		mockMvc.perform(post("/watchlistItemForm"))	
 			.andExpect(model().hasErrors())
-			.andExpect(status().isOk());
-//			.andDo(print());
+			.andExpect(status().isOk())
+			.andDo(print());
 	}
-
+	
+	@Test
+	void testSubmitWatchListItemFormWithCommentMoreThan50Chars() throws Exception {
+		mockMvc.perform(post("/watchlistItemForm")
+				.param("title", "the Prinz of Zamunda")
+				.param("comment", COMMENTHAS51CHARS))	
+			.andExpect(model().hasErrors())
+			.andExpect(status().isOk())
+			.andDo(print());
+	}	
 }
