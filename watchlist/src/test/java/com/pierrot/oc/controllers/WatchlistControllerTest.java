@@ -64,7 +64,7 @@ class WatchlistControllerTest {
 	void testSubmitWatchListItemFormWithoutParams() throws Exception {
 		mockMvc.perform(post("/watchlistItemForm"))	
 			.andExpect(model().hasErrors())
-			.andExpect(status().isOk())
+			.andExpect(model().attributeHasFieldErrors("watchlistItem", "title"))
 			.andDo(print());
 	}
 	
@@ -72,9 +72,9 @@ class WatchlistControllerTest {
 	void testSubmitWatchListItemFormWithCommentMoreThan50Chars() throws Exception {
 		mockMvc.perform(post("/watchlistItemForm")
 				.param("title", "the Prinz of Zamunda")
-				.param("comment", COMMENTHAS51CHARS))	
-			.andExpect(model().hasErrors())
-			.andExpect(status().isOk())
+				.param("comment", COMMENTHAS51CHARS))
+			.andExpect(model().attributeHasFieldErrors("watchlistItem", "comment"))
+			.andExpect(model().attributeHasFieldErrorCode("watchlistItem", "comment","Size"))
 			.andDo(print());
 	}	
 }
