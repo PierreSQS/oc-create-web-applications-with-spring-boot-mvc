@@ -47,7 +47,7 @@ class WatchlistControllerTest {
 	}
 
 	@Test
-	void testSubmitWatchListItemForm() throws Exception {
+	void testSubmitWatchListItemFormWithAllFields() throws Exception {
 		mockMvc.perform(post("/watchlistItemForm")
 				.param("title", "the Prinz of Zamunda")
 				.param("rating", "8.0")
@@ -62,7 +62,8 @@ class WatchlistControllerTest {
 
 	@Test
 	void testSubmitWatchListItemFormWithoutParams() throws Exception {
-		mockMvc.perform(post("/watchlistItemForm"))	
+		mockMvc.perform(post("/watchlistItemForm")
+				.param("rating", "0.0")) // because of GoodMovieValidator -> FormatException	
 			.andExpect(model().hasErrors())
 			.andExpect(model().attributeHasFieldErrors("watchlistItem", "title"))
 			.andDo(print());
@@ -72,9 +73,20 @@ class WatchlistControllerTest {
 	void testSubmitWatchListItemFormWithCommentMoreThan50Chars() throws Exception {
 		mockMvc.perform(post("/watchlistItemForm")
 				.param("title", "the Prinz of Zamunda")
+				.param("rating", "0.0") // because of GoodMovieValidator -> FormatException
 				.param("comment", COMMENTHAS51CHARS))
 			.andExpect(model().attributeHasFieldErrors("watchlistItem", "comment"))
 			.andExpect(model().attributeHasFieldErrorCode("watchlistItem", "comment","Size"))
+			.andDo(print());
+	}
+	
+	@Test
+	void testSubmitWatchListItemFormOnCrossFieldValidation() throws Exception {
+		mockMvc.perform(post("/watchlistItemForm")
+				.param("title", "the Prinz of Zamunda")
+				.param("rating", "9.0")
+				.param("priority", "L"))
+			.andExpect(model().hasErrors())// there is no field error (cross-field validation)
 			.andDo(print());
 	}	
 }
