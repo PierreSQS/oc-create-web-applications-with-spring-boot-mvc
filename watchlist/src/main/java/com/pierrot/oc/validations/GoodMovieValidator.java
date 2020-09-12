@@ -9,6 +9,9 @@ public class GoodMovieValidator implements ConstraintValidator<GoodMovie, Watchl
 
 	@Override
 	public boolean isValid(WatchlistItem value, ConstraintValidatorContext context) {
+		if (value.getRating().isEmpty()) {
+			value.setRating("0.0");
+		}
 		return !(Double.valueOf(value.getRating()) >= 8 && value.getPriority().startsWith("L"));
 	}
 
