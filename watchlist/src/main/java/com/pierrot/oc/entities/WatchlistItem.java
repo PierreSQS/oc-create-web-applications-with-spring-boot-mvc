@@ -3,9 +3,12 @@ package com.pierrot.oc.entities;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
+import com.pierrot.oc.validations.GoodMovie;
+
 import lombok.Data;
 
 @Data
+@GoodMovie
 public class WatchlistItem {
 	private static int index;
 
