@@ -87,4 +87,24 @@ class WatchlistControllerTest {
 			.andExpect(model().hasErrors())// there is no field error (cross-field validation)
 			.andDo(print());
 	}	
+	
+	@Test
+	void testSubmitWatchListItemFormWithRatingEqual5_0() throws Exception {
+		mockMvc.perform(post("/watchlistItemForm")
+				.param("title", "Avatar")
+				.param("rating", "5.0")
+				.param("priority", "L"))
+			.andExpect(model().attributeHasFieldErrorCode("watchlistItem", "rating", "DecimalMin"))
+			.andDo(print());
+	}	
+	
+	@Test
+	void testSubmitWatchListItemFormWithRatingEqual10_0() throws Exception {
+		mockMvc.perform(post("/watchlistItemForm")
+				.param("title", "Avatar")
+				.param("rating", "10.0")
+				.param("priority", "L"))
+			.andExpect(model().attributeHasFieldErrorCode("watchlistItem", "rating", "DecimalMax"))
+			.andDo(print());
+	}	
 }

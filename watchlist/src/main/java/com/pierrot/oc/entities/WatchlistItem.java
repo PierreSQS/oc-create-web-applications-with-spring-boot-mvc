@@ -1,5 +1,7 @@
 package com.pierrot.oc.entities;
 
+import javax.validation.constraints.DecimalMax;
+import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
@@ -16,9 +18,11 @@ public class WatchlistItem {
 	
 	@NotBlank( message="Please enter the title")
 	private String title;
-	private String rating;
-	private String priority;
 	
+	@DecimalMin(value = "5", inclusive = false, message ="The rating must be higher than 5.0" )
+	@DecimalMax(value = "10", inclusive = false, message ="The rating must be lower than 10.0" )
+	private String rating;
+	private String priority;	
 
 	@Size(max=50,  message="Comment should be maximum 50 characters")
 	private String comment;
