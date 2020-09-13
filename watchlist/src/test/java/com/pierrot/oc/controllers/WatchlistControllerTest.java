@@ -62,8 +62,7 @@ class WatchlistControllerTest {
 
 	@Test
 	void testSubmitWatchListItemFormWithoutParams() throws Exception {
-		mockMvc.perform(post("/watchlistItemForm")
-				.param("rating", "0.0")) // because of GoodMovieValidator -> FormatException	
+		mockMvc.perform(post("/watchlistItemForm"))
 			.andExpect(model().hasErrors())
 			.andExpect(model().attributeHasFieldErrors("watchlistItem", "title"))
 			.andDo(print());
@@ -73,7 +72,6 @@ class WatchlistControllerTest {
 	void testSubmitWatchListItemFormWithCommentMoreThan50Chars() throws Exception {
 		mockMvc.perform(post("/watchlistItemForm")
 				.param("title", "the Prinz of Zamunda")
-				.param("rating", "0.0") // because of GoodMovieValidator -> FormatException
 				.param("comment", COMMENTHAS51CHARS))
 			.andExpect(model().attributeHasFieldErrors("watchlistItem", "comment"))
 			.andExpect(model().attributeHasFieldErrorCode("watchlistItem", "comment","Size"))
