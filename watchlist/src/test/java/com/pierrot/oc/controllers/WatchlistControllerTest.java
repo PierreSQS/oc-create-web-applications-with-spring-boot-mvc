@@ -3,7 +3,6 @@ package com.pierrot.oc.controllers;
 import static org.hamcrest.CoreMatchers.containsString;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -13,6 +12,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.test.web.servlet.MockMvc;
+
+import com.pierrot.oc.entities.WatchlistItem;
 
 @WebMvcTest(controllers = {WatchlistController.class})
 class WatchlistControllerTest {
@@ -27,26 +28,28 @@ class WatchlistControllerTest {
 	private MockMvc mockMvc;
 	
 	@Test
-	void testGetWatchList() throws Exception {
+		void testGetWatchList() throws Exception {
+			mockMvc.perform(get("/watchlist"))
+				.andExpect(view().name("watchlist"))
+				.andExpect(status().isOk())
+				.andExpect(model().attributeExists("numberOfMovies","watchlistItems"))
+				.andExpect(content().string(containsString("The Godfather")));
+	//			.andDo(print());
+		}
+
+	@Test
+	void testShowWatchListItemForm() throws Exception {
+		WatchlistItem theItem = new WatchlistItem();
+		theItem.setId(5);
 		mockMvc.perform(get("/watchlistItemForm"))
 			.andExpect(view().name("watchlistItemForm"))
 			.andExpect(status().isOk())
-			.andExpect(model().attributeExists("watchlistItem"))
-			.andExpect(content().string(containsString("Submit an item")));
+			.andExpect(model().attribute("watchlistItem", theItem));
 //			.andDo(print());
 	}
 	
 	@Test
-	void testShowWatchListItemForm() throws Exception {
-		mockMvc.perform(get("/watchlist"))
-			.andExpect(view().name("watchlist"))
-			.andExpect(status().isOk())
-			.andExpect(model().attributeExists("numberOfMovies","watchlistItems"))
-			.andExpect(content().string(containsString("The Godfather")));
-//			.andDo(print());
-	}
 
-	@Test
 	void testSubmitWatchListItemFormWithAllFields() throws Exception {
 		mockMvc.perform(post("/watchlistItemForm")
 				.param("title", "the Prinz of Zamunda")
@@ -64,8 +67,8 @@ class WatchlistControllerTest {
 	void testSubmitWatchListItemFormWithoutParams() throws Exception {
 		mockMvc.perform(post("/watchlistItemForm"))
 			.andExpect(model().hasErrors())
-			.andExpect(model().attributeHasFieldErrors("watchlistItem", "title"))
-			.andDo(print());
+			.andExpect(model().attributeHasFieldErrors("watchlistItem", "title"));
+//			.andDo(print());
 	}
 	
 	@Test
@@ -74,8 +77,8 @@ class WatchlistControllerTest {
 				.param("title", "the Prinz of Zamunda")
 				.param("comment", COMMENTHAS51CHARS))
 			.andExpect(model().attributeHasFieldErrors("watchlistItem", "comment"))
-			.andExpect(model().attributeHasFieldErrorCode("watchlistItem", "comment","Size"))
-			.andDo(print());
+			.andExpect(model().attributeHasFieldErrorCode("watchlistItem", "comment","Size"));
+//			.andDo(print());
 	}
 	
 	@Test
@@ -84,8 +87,8 @@ class WatchlistControllerTest {
 				.param("title", "the Prinz of Zamunda")
 				.param("rating", "9.0")
 				.param("priority", "L"))
-			.andExpect(model().hasErrors())// there is no field error (cross-field validation)
-			.andDo(print());
+			.andExpect(model().hasErrors());// there is no field error (cross-field validation)
+//			.andDo(print());
 	}	
 	
 	@Test
@@ -94,8 +97,8 @@ class WatchlistControllerTest {
 				.param("title", "Avatar")
 				.param("rating", "5.0")
 				.param("priority", "L"))
-			.andExpect(model().attributeHasFieldErrorCode("watchlistItem", "rating", "DecimalMin"))
-			.andDo(print());
+			.andExpect(model().attributeHasFieldErrorCode("watchlistItem", "rating", "DecimalMin"));
+//			.andDo(print());
 	}	
 	
 	@Test
@@ -104,7 +107,7 @@ class WatchlistControllerTest {
 				.param("title", "Avatar")
 				.param("rating", "10.0")
 				.param("priority", "L"))
-			.andExpect(model().attributeHasFieldErrorCode("watchlistItem", "rating", "DecimalMax"))
-			.andDo(print());
+			.andExpect(model().attributeHasFieldErrorCode("watchlistItem", "rating", "DecimalMax"));
+//			.andDo(print());
 	}	
 }
