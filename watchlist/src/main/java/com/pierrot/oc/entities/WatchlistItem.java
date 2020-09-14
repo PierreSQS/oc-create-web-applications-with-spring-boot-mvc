@@ -6,6 +6,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
 import com.pierrot.oc.validations.GoodMovie;
+import com.pierrot.oc.validations.Rating;
 
 import lombok.Data;
 
@@ -19,9 +20,9 @@ public class WatchlistItem {
 	@NotBlank( message="Please enter the title")
 	private String title;
 	
-	@DecimalMin(value = "5", inclusive = false, message ="The rating must be higher than 5.0" )
-	@DecimalMax(value = "10", inclusive = false, message ="The rating must be lower than 10.0" )
+	@Rating
 	private String rating;
+	
 	private String priority;	
 
 	@Size(max=50,  message="Comment should be maximum 50 characters")
