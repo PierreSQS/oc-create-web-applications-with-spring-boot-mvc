@@ -39,11 +39,16 @@ class WatchlistControllerTest {
 
 	@Test
 	void testShowWatchListItemForm() throws Exception {
+		// this is the reference item when the form
+		// is displayed the first time. Since the List of
+		// item is pre-loaded with 4 elements, somehow
+		// the id of the ref Item is 5 (watchlistItem.id =5)
 		WatchlistItem theItem = new WatchlistItem();
 		theItem.setId(5);
 		mockMvc.perform(get("/watchlistItemForm"))
 			.andExpect(view().name("watchlistItemForm"))
 			.andExpect(status().isOk())
+			// the updated assertion. We assert now on the Item!!!!
 			.andExpect(model().attribute("watchlistItem", theItem));
 //			.andDo(print());
 	}
