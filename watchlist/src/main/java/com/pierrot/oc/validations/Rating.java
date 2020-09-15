@@ -14,7 +14,7 @@ import javax.validation.Payload;
 @Target({ TYPE, FIELD })
 @Constraint(validatedBy = RatingValidator.class)
 public @interface Rating {
-	String message() default "Rating should be a number between 1.0-10.0. One Decimal is accepted";
+	String message() default "Rating should be a number between 1.0-10.0. Decimals with (.) are accepted";
 
 	Class<?>[] groups() default {};
 

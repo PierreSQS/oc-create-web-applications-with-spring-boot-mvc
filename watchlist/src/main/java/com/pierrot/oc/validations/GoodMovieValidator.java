@@ -19,7 +19,7 @@ public class GoodMovieValidator implements ConstraintValidator<GoodMovie, Watchl
 		}
 		
 		String priority = value.getPriority();
-		return (priority == null) || !(rating >= 8 & priority.startsWith("L"));
+		return (priority == null) || !(rating >= 8 & priority.equals("L"));
 	}
 
 }
