@@ -34,7 +34,7 @@ class WatchlistControllerTest {
 				.andExpect(status().isOk())
 				.andExpect(model().attributeExists("numberOfMovies","watchlistItems"))
 				.andExpect(content().string(containsString("The Godfather")));
-	//			.andDo(print());
+//				.andDo(print());
 		}
 
 	@Test
@@ -72,14 +72,16 @@ class WatchlistControllerTest {
 	void testSubmitWatchListItemFormWithoutParams() throws Exception {
 		mockMvc.perform(post("/watchlistItemForm"))
 			.andExpect(model().hasErrors())
-			.andExpect(model().attributeHasFieldErrors("watchlistItem", "title"));
+			.andExpect(model().attributeHasFieldErrors("watchlistItem", "title"))
+			.andExpect(model().attributeHasFieldErrors("watchlistItem", "rating"));
 //			.andDo(print());
 	}
 	
 	@Test
 	void testSubmitWatchListItemFormWithCommentMoreThan50Chars() throws Exception {
 		mockMvc.perform(post("/watchlistItemForm")
-				.param("title", "the Prinz of Zamunda")
+				.param("title", "Tatort")
+				.param("rating", "2.0")
 				.param("comment", COMMENTHAS51CHARS))
 			.andExpect(model().attributeHasFieldErrors("watchlistItem", "comment"))
 			.andExpect(model().attributeHasFieldErrorCode("watchlistItem", "comment","Size"));
@@ -89,30 +91,30 @@ class WatchlistControllerTest {
 	@Test
 	void testSubmitWatchListItemFormOnCrossFieldValidation() throws Exception {
 		mockMvc.perform(post("/watchlistItemForm")
-				.param("title", "the Prinz of Zamunda")
+				.param("title", "Le clan des siciliens")
 				.param("rating", "9.0")
 				.param("priority", "L"))
-			.andExpect(model().hasErrors());// there is no field error (cross-field validation)
+			.andExpect(model().attributeHasErrors("watchlistItem"));// there is no field error (cross-field validation);
 //			.andDo(print());
 	}	
 	
 	@Test
-	void testSubmitWatchListItemFormWithRatingEqual5_0() throws Exception {
+	void testSubmitWatchListItemFormWithRatingEqual1_0() throws Exception {
 		mockMvc.perform(post("/watchlistItemForm")
-				.param("title", "Avatar")
-				.param("rating", "5.0")
+				.param("title", "Linden Straße")
+				.param("rating", "1.0")
 				.param("priority", "L"))
-			.andExpect(model().attributeHasFieldErrorCode("watchlistItem", "rating", "DecimalMin"));
+			.andExpect(model().attributeHasFieldErrorCode("watchlistItem", "rating", "Rating"));
 //			.andDo(print());
 	}	
 	
 	@Test
 	void testSubmitWatchListItemFormWithRatingEqual10_0() throws Exception {
 		mockMvc.perform(post("/watchlistItemForm")
-				.param("title", "Avatar")
+				.param("title", "The Godfather")
 				.param("rating", "10.0")
 				.param("priority", "L"))
-			.andExpect(model().attributeHasFieldErrorCode("watchlistItem", "rating", "DecimalMax"));
+			.andExpect(model().attributeHasFieldErrorCode("watchlistItem", "rating", "Rating"));
 //			.andDo(print());
 	}	
 }

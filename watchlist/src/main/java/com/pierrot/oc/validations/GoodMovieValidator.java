@@ -14,9 +14,12 @@ public class GoodMovieValidator implements ConstraintValidator<GoodMovie, Watchl
 			rating = (Double.valueOf(value.getRating()));
 		} catch (NumberFormatException e) {
 			;
+		}  catch (NullPointerException e) {
+			;
 		}
 		
-		return !(rating >= 8 & value.getPriority().startsWith("L"));
+		String priority = value.getPriority();
+		return (priority == null) || !(rating >= 8 & priority.startsWith("L"));
 	}
 
 }

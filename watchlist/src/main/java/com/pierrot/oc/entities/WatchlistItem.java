@@ -1,7 +1,5 @@
 package com.pierrot.oc.entities;
 
-import javax.validation.constraints.DecimalMax;
-import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
