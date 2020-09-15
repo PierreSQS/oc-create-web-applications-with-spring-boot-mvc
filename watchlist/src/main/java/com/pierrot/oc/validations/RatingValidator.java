@@ -13,7 +13,8 @@ public class RatingValidator implements ConstraintValidator<Rating, String> {
 			rating = Double.parseDouble(value);
 		} catch (NumberFormatException e) {
 		} catch (NullPointerException ne) {
-			
+			// this is not a validation requirement
+			// it is just to prevent breaking tests when rating = null
 		}
 
 		return (rating < 10.0 && rating > 1.0);

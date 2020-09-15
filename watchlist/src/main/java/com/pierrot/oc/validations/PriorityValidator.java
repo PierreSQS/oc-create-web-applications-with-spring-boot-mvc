@@ -7,6 +7,7 @@ public class PriorityValidator implements ConstraintValidator<Priority, String> 
 
 	@Override
 	public boolean isValid(String value, ConstraintValidatorContext context) {
+		// to avoid breaking test, not a validation requirement		
 		if (value == null) {
 			return false;
 		}
