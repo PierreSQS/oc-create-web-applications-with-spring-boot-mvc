@@ -4,6 +4,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
 import com.pierrot.oc.validations.GoodMovie;
+import com.pierrot.oc.validations.Priority;
 import com.pierrot.oc.validations.Rating;
 
 import lombok.Data;
@@ -21,6 +22,7 @@ public class WatchlistItem {
 	@Rating
 	private String rating;
 	
+	@Priority
 	private String priority;	
 
 	@Size(max=50,  message="Comment should be maximum 50 characters")
