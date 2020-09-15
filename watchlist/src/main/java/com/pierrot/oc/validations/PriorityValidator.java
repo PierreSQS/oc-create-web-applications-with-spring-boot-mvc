@@ -3,6 +3,8 @@ package com.pierrot.oc.validations;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
+import com.pierrot.oc.annotations.Priority;
+
 public class PriorityValidator implements ConstraintValidator<Priority, String> {
 
 	@Override

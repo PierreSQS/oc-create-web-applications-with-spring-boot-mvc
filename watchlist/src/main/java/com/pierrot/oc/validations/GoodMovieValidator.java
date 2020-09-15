@@ -3,6 +3,7 @@ package com.pierrot.oc.validations;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
+import com.pierrot.oc.annotations.GoodMovie;
 import com.pierrot.oc.entities.WatchlistItem;
 
 public class GoodMovieValidator implements ConstraintValidator<GoodMovie, WatchlistItem> {

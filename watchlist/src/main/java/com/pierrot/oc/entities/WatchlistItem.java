@@ -3,9 +3,9 @@ package com.pierrot.oc.entities;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
-import com.pierrot.oc.validations.GoodMovie;
-import com.pierrot.oc.validations.Priority;
-import com.pierrot.oc.validations.Rating;
+import com.pierrot.oc.annotations.GoodMovie;
+import com.pierrot.oc.annotations.Priority;
+import com.pierrot.oc.annotations.Rating;
 
 import lombok.Data;
 

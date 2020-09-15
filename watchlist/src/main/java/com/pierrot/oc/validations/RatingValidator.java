@@ -3,6 +3,8 @@ package com.pierrot.oc.validations;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
+import com.pierrot.oc.annotations.Rating;
+
 public class RatingValidator implements ConstraintValidator<Rating, String> {
 
 	@Override
