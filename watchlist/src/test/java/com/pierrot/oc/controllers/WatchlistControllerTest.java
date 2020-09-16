@@ -3,6 +3,7 @@ package com.pierrot.oc.controllers;
 import static org.hamcrest.CoreMatchers.containsString;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -153,7 +154,7 @@ class WatchlistControllerTest {
 //			.andDo(print());
 	}	
 	
-	@Test // No title,rating > 10.0, priority = "HIGH", comments > 50chars
+	@Test // title = null,rating > 10.0, priority != "H", comments > 50chars
 	void testSubmitWatchListItemFormCombinationOfValidations() throws Exception {
 		mockMvc.perform(post("/watchlistItemForm")
 				.param("rating", "11")
@@ -161,7 +162,18 @@ class WatchlistControllerTest {
 				.param("comment", COMMENTHAS51CHARS))
 			.andExpect(model().attributeHasFieldErrorCode("watchlistItem", "title", "NotBlank"))
 			.andExpect(model().attributeHasFieldErrorCode("watchlistItem", "priority", "Priority"))
-			.andExpect(model().attributeErrorCount("watchlistItem", 4)); // 		
+			.andExpect(model().attributeErrorCount("watchlistItem", 4)); // GoodMovie Validation + 3 Fields Wrong  		
+//			.andDo(print());
+	}	
+	
+	@Test // No title,rating > 10.0, priority and rating OK, comments > 50chars
+	void testSubmitWatchListItemFormGoodMoovieNoTitleCommentMoreThan50() throws Exception {
+		mockMvc.perform(post("/watchlistItemForm")
+				.param("rating", "9.1")
+				.param("priority", "L")
+				.param("comment", COMMENTHAS51CHARS))
+			.andExpect(model().attributeHasFieldErrorCode("watchlistItem", "title", "NotBlank"))
+			.andExpect(model().attributeErrorCount("watchlistItem", 3)); // GoodMovie Validation + comment > 50chars		
 //			.andDo(print());
 	}	
 }
