@@ -176,4 +176,16 @@ class WatchlistControllerTest {
 			.andExpect(model().attributeErrorCount("watchlistItem", 3)); // GoodMovie Validation + comment > 50chars		
 //			.andDo(print());
 	}	
+	
+	@Test // Test Validation of 2 Items with the same title works
+	void testSubmitWatchListItemFormHasNot2EntriesWithSameTitle() throws Exception {
+		mockMvc.perform(post("/watchlistItemForm")
+				.param("Title", "Le clan des siciliens ")
+				.param("rating", "8.0")
+				.param("priority", "H")
+				.param("comment", "a french must!"))
+			.andExpect(model().attributeHasFieldErrorCode("watchlistItem", "title", "DuPTitel"))
+			.andExpect(model().attributeErrorCount("watchlistItem", 1));// there is no field error (cross-record validation on title);		
+//			.andDo(print());
+	}	
 }

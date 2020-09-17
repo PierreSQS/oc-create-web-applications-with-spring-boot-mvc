@@ -27,10 +27,10 @@ public class WatchlistController {
 	static {
 		// initializing the data of the model
 		 watchItemsList.clear();
-		 watchItemsList.add(new WatchlistItem("The Godfather", "8.5", "HIGH", "this is a must!"));
-		 watchItemsList.add(new WatchlistItem("Le clan des siciliens", "8.0", "HIGH","a french mus"));
-		 watchItemsList.add(new WatchlistItem("Live and let die", "8.5", "HIGH", "Kananga is the best!"));
-		 watchItemsList.add(new WatchlistItem("Tatort", "2.5", "LOW", "booh to the germans!"));
+		 watchItemsList.add(new WatchlistItem("The Godfather", "8.5", "H", "the best film of the world!"));
+		 watchItemsList.add(new WatchlistItem("Le clan des siciliens", "8.0", "H","a french must!"));
+		 watchItemsList.add(new WatchlistItem("Live and let die", "8.5", "H", "Kananga is the best!"));
+		 watchItemsList.add(new WatchlistItem("Tatort", "2.5", "L", "booh to the germans!"));
 	}
 
 	@GetMapping("/watchlist")
@@ -56,7 +56,7 @@ public class WatchlistController {
 		String viewName = "watchlistItemForm";
 		
 		WatchlistItem listItem = createOrGetItemById(id);
-		log.info("found List Item: "+listItem);
+		log.info("found List Item: {}",listItem);
 
 		// initializing the model and fetching the data into the model
 		Map<String, Object> model = new HashMap<>();
@@ -74,6 +74,10 @@ public class WatchlistController {
 		
 		if (errors.hasErrors()) {
 			return new ModelAndView("watchlistItemForm");
+		}
+		
+		if (isItemByTitelExists(watchlistItem.getTitle())) {
+			errors.rejectValue("titel", "DuPTitel", "Watchitem with the same Titel already exists");
 		}
 		
 		WatchlistItem existingItem = findItemById(watchlistItem.getId());
@@ -110,5 +114,11 @@ public class WatchlistController {
 				.filter(item -> item.getId().equals(id))
 				.findFirst()
 				.orElse(null);
+	}
+	
+	private boolean isItemByTitelExists(String title) {
+		return watchItemsList.stream()
+				.anyMatch(item -> item.getTitle()
+									  .trim().equals(title));
 	}
 }
