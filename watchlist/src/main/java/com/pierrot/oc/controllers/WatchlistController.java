@@ -77,7 +77,7 @@ public class WatchlistController {
 		}
 		
 		if (isItemByTitelExists(watchlistItem.getTitle())) {
-			errors.rejectValue("titel", "DuPTitel", "Watchitem with the same Titel already exists");
+			errors.rejectValue("title", "DuPTitel", "Watchitem with the same Titel already exists");
 		}
 		
 		WatchlistItem existingItem = findItemById(watchlistItem.getId());
