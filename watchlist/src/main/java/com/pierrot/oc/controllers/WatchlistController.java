@@ -76,15 +76,17 @@ public class WatchlistController {
 			return new ModelAndView("watchlistItemForm");
 		}
 		
-		if (isItemByTitelExists(watchlistItem.getTitle())) {
-			errors.rejectValue("title", "DuPTitel", "Watchitem with the same Titel already exists");
-			return new ModelAndView("watchlistItemForm");
-		}
 		
 		WatchlistItem existingItem = findItemById(watchlistItem.getId());
 
 		if (existingItem == null) {
 			// initializing the data
+			
+			if (isItemByTitelExists(watchlistItem.getTitle())) {
+				errors.rejectValue("title", "DuPTitel", "Watchitem with the same Titel already exists");
+				return new ModelAndView("watchlistItemForm");
+			}
+
 			watchItemsList.add(watchlistItem);
 		} else {
 			existingItem.setTitle(watchlistItem.getTitle());
