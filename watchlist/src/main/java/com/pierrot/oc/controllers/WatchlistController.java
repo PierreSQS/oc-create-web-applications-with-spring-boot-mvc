@@ -78,6 +78,7 @@ public class WatchlistController {
 		
 		if (isItemByTitelExists(watchlistItem.getTitle())) {
 			errors.rejectValue("title", "DuPTitel", "Watchitem with the same Titel already exists");
+			return new ModelAndView("watchlistItemForm");
 		}
 		
 		WatchlistItem existingItem = findItemById(watchlistItem.getId());
