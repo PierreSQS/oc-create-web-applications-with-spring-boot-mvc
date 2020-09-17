@@ -119,6 +119,6 @@ public class WatchlistController {
 	private boolean isItemByTitelExists(String title) {
 		return watchItemsList.stream()
 				.anyMatch(item -> item.getTitle()
-									  .trim().equals(title));
+									  .trim().equals(title.trim()));
 	}
 }
