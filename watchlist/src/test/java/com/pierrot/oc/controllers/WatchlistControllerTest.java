@@ -177,13 +177,17 @@ class WatchlistControllerTest {
 //			.andDo(print());
 	}	
 	
-	@Test // Test Validation of 2 Items with the same title works
+	// Test Validation of 2 Items with the same title works
+	// in case of a validation error on page,
+	// stay on page! No redirection!
+	@Test
 	void testSubmitWatchListItemFormHasNot2EntriesWithSameTitle() throws Exception {
 		mockMvc.perform(post("/watchlistItemForm")
 				.param("Title", "Le clan des siciliens ")
 				.param("rating", "8.0")
 				.param("priority", "H")
 				.param("comment", "a french must!"))
+			.andExpect(status().isOk()) // no redirection
 			.andExpect(model().attributeHasFieldErrorCode("watchlistItem", "title", "DuPTitel"))
 			.andExpect(model().attributeErrorCount("watchlistItem", 1));// there is no field error (cross-record validation on title);		
 //			.andDo(print());
