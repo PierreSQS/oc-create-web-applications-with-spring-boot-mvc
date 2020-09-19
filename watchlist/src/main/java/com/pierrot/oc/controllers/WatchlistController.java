@@ -80,6 +80,7 @@ public class WatchlistController {
 			watchlistServ.addItemOrUpdateWatchlist(watchlistItem);
 		} catch (DuplicateTitleException e) {
 			errors.rejectValue("title", "DuPTitel", e.getMessage());
+			return new ModelAndView("watchlistItemForm");
 		}
 		// initializing the model and fetching the watchlist Item
 		// from the Form into the model
