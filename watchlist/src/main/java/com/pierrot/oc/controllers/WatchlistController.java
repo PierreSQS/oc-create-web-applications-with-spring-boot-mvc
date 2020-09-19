@@ -1,6 +1,5 @@
 package com.pierrot.oc.controllers;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -16,21 +15,22 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
 import com.pierrot.oc.entities.WatchlistItem;
+import com.pierrot.oc.exceptions.DuplicateTitleException;
+import com.pierrot.oc.services.WatchlistService;
 
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Controller
 public class WatchlistController {
-	private static List<WatchlistItem> watchItemsList = new ArrayList<>();
+	private List<WatchlistItem> watchItemsList;
 	
-	static {
-		// initializing the data of the model
-		 watchItemsList.clear();
-		 watchItemsList.add(new WatchlistItem("The Godfather", "8.5", "H", "the best film of the world!"));
-		 watchItemsList.add(new WatchlistItem("Le clan des siciliens", "8.0", "H","a french must!"));
-		 watchItemsList.add(new WatchlistItem("Live and let die", "8.5", "H", "Kananga is the best!"));
-		 watchItemsList.add(new WatchlistItem("Tatort", "2.5", "L", "booh to the germans!"));
+	private WatchlistService watchlistServ;
+	
+	public WatchlistController(WatchlistService watchlistServ) {
+		super();
+		this.watchlistServ = watchlistServ;
+		watchItemsList = watchlistServ.getWatchlist();
 	}
 
 	@GetMapping("/watchlist")
@@ -55,7 +55,7 @@ public class WatchlistController {
 		// the view Name
 		String viewName = "watchlistItemForm";
 		
-		WatchlistItem listItem = createOrGetItemById(id);
+		WatchlistItem listItem = watchlistServ.createItemOnListOrGetItemByIdFromList(id);
 		log.info("found List Item: {}",listItem);
 
 		// initializing the model and fetching the data into the model
@@ -75,24 +75,11 @@ public class WatchlistController {
 		if (errors.hasErrors()) {
 			return new ModelAndView("watchlistItemForm");
 		}
-		
-		
-		WatchlistItem existingItem = findItemById(watchlistItem.getId());
 
-		if (existingItem == null) {
-			
-			if (isItemByTitelExists(watchlistItem.getTitle())) {
-				errors.rejectValue("title", "DuPTitel", "Watchitem with the same Titel already exists");
-				return new ModelAndView("watchlistItemForm");
-			}
-
-			// initializing the data
-			watchItemsList.add(watchlistItem);
-		} else {
-			existingItem.setTitle(watchlistItem.getTitle());
-			existingItem.setRating(watchlistItem.getRating());
-			existingItem.setPriority(watchlistItem.getPriority());
-			existingItem.setComment(watchlistItem.getComment());
+		try {
+			watchlistServ.addItemOrUpdateWatchlist(watchlistItem);
+		} catch (DuplicateTitleException e) {
+			errors.rejectValue("title", "DuPTitel", e.getMessage());
 		}
 		// initializing the model and fetching the watchlist Item
 		// from the Form into the model
@@ -104,24 +91,5 @@ public class WatchlistController {
 
 		return new ModelAndView(redirectView, model);
 
-	}
-
-	private WatchlistItem createOrGetItemById(Integer id) {
-		return watchItemsList.stream()
-				.filter(item -> item.getId().equals(id))
-				.findFirst().orElse(new WatchlistItem());
-	}
-	
-	private WatchlistItem findItemById(Integer id) {
-		return watchItemsList.stream()
-				.filter(item -> item.getId().equals(id))
-				.findFirst()
-				.orElse(null);
-	}
-	
-	private boolean isItemByTitelExists(String title) {
-		return watchItemsList.stream()
-				.anyMatch(item -> item.getTitle()
-									  .trim().equals(title.trim()));
 	}
 }
