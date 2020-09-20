@@ -45,4 +45,8 @@ public class WatchlistService {
 		return watchlistRepo.getItemList();
 		
 	}
+	
+	public int getWatchlistSize() {
+		return watchlistRepo.getItemListSize();
+	}
 }
