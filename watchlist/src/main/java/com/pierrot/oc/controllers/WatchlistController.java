@@ -43,7 +43,7 @@ public class WatchlistController {
 
 		// fetching the data into the model
 		model.put("watchlistItems", watchItemsList);
-		model.put("numberOfMovies", watchItemsList.size());
+		model.put("numberOfMovies", watchlistServ.getWatchlistSize());
 
 		// Binding the model and the view
 		return new ModelAndView(viewName, model);
