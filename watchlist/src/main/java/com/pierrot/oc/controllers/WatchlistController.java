@@ -55,7 +55,10 @@ public class WatchlistController {
 		// the view Name
 		String viewName = "watchlistItemForm";
 		
+		// WHEN SET LIKE BELOW THE TEST PASSES. SO WE MUST SET IT IN THE MOCK!!!!
+//		WatchlistItem listItem = new WatchlistItem();
 		WatchlistItem listItem = watchlistServ.createItemOnListOrGetItemByIdFromList(id);
+
 		log.info("found List Item: {}",listItem);
 
 		// initializing the model and fetching the data into the model
