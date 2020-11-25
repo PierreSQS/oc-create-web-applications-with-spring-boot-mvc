@@ -49,14 +49,18 @@ class WatchlistControllerTest {
 	// No Command-Object was mocked!!
 	@Test
 	void testShowWatchListItemForm() throws Exception {
-		// We are mocking the Commad Object with an Id=null!!
+		// No Command object was mocked!! We are mocking the Commad Object with an Id=null
 		when(mockWatchlistServ.createItemOnListOrGetItemByIdFromList(null)).thenReturn(new WatchlistItem());
-	
+
+		// To make the assertion at line 63 work (model().attribute("watchlistItem", expectedItem))
+		// and to prove that the assumption in Commit05 was wrong!!
+		WatchlistItem expectedItem = new WatchlistItem();
+		expectedItem.setId(0);
+		
 		mockMvc.perform(get("/watchlistItemForm"))
 			.andExpect(status().isOk())
-			.andExpect(view().name("watchlistItemForm"))
-
-			// The assumption in the previous commit was wrong!!!
+			.andExpect(view().name("watchlistItemForm"))			
+			.andExpect(model().attribute("watchlistItem", expectedItem))
 			.andExpect(model().attributeExists("watchlistItem"))
 			.andDo(print());
 	}
