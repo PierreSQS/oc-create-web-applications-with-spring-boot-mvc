@@ -1,6 +1,7 @@
 package com.pierrot.oc.controllers;
 
 import static org.hamcrest.CoreMatchers.containsString;
+import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -16,6 +17,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
 
+import com.pierrot.oc.entities.WatchlistItem;
 import com.pierrot.oc.services.WatchlistService;
 
 @WebMvcTest(controllers = {WatchlistController.class})
@@ -31,7 +33,7 @@ class WatchlistControllerTest {
 	private MockMvc mockMvc;
 	
 	@MockBean
-	WatchlistService mockServ;
+	WatchlistService mockWatchlistServ;
 	
 	@Test
 		void testGetWatchList() throws Exception {
@@ -43,19 +45,19 @@ class WatchlistControllerTest {
 //				.andDo(print());
 		}
 
-	// At this stage there is no ModelAttribute 'watchlistItem' in the MockController
-	// therefore a Null-ModelAttribute as in the log -> which causes the Template Engine
-	// to run into a TemplateProcessingException (s. logs"
+	// The missing of a Command-Object was causing the Problem of Processing the template
+	// No Command-Object was mocked!!
 	@Test
 	void testShowWatchListItemForm() throws Exception {
+		// We are mocking the Commad Object with an Id=null!!
+		when(mockWatchlistServ.createItemOnListOrGetItemByIdFromList(null)).thenReturn(new WatchlistItem());
+	
 		mockMvc.perform(get("/watchlistItemForm"))
 			.andExpect(status().isOk())
 			.andExpect(view().name("watchlistItemForm"))
-			
-			// HERE WE SHOULD CHECK IF THE MODEL ATTRIBUTE
-			// WHICH MAKES THE TEST FAIL IS SET. NOT TO CHECK IF EXISTS!!!
-			// WE SHOULD SET THE MODEL IN THE TEST
-//			.andExpect(model().attributeExists("watchlistItem"))
+
+			// The assumption in the previous commit was wrong!!!
+			.andExpect(model().attributeExists("watchlistItem"))
 			.andDo(print());
 	}
 	
