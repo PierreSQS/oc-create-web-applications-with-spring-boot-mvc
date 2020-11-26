@@ -53,7 +53,7 @@ public class WatchlistRepository {
 	public boolean isItemByTitelExists(String title) {
 		return itemList.stream()
 				.anyMatch(item -> item.getTitle()
-									  .trim().equals(title.trim()));
+				.trim().equals(title.trim()));
 	}
 	
 	public int getItemListSize() {
