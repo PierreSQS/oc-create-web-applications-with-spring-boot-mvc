@@ -34,6 +34,8 @@ class WatchlistRepositoryTest {
 	void tearDown() throws Exception {
 	}
 
+	// TODO Check why this Test is not working on Maven
+	// A workaround is stashed!!
 	@Test
 	void testCreateOrGetItemById() {
 		WatchlistRepository watchlistRepo = new WatchlistRepository(itemList);
