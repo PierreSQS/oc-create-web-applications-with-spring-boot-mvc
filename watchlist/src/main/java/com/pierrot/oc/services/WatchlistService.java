@@ -10,8 +10,10 @@ import com.pierrot.oc.repositories.WatchlistRepository;
 
 @Service
 public class WatchlistService {
+	
 	private WatchlistRepository watchlistRepo;
-
+	
+	// the Autowired annotation is set by default
 	public WatchlistService(WatchlistRepository watchlistRepo) {
 		super();
 		this.watchlistRepo = watchlistRepo;
