@@ -8,15 +8,21 @@ import com.pierrot.oc.entities.WatchlistItem;
 import com.pierrot.oc.exceptions.DuplicateTitleException;
 import com.pierrot.oc.repositories.WatchlistRepository;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @Service
 public class WatchlistService {
 	
 	private WatchlistRepository watchlistRepo;
 	
+	private MovieRatingService movieRatingServ;
+	
 	// the Autowired annotation is set by default
-	public WatchlistService(WatchlistRepository watchlistRepo) {
+	public WatchlistService(WatchlistRepository watchlistRepo, MovieRatingService movieRatingServ) {
 		super();
 		this.watchlistRepo = watchlistRepo;
+		this.movieRatingServ = movieRatingServ;
 	}
 	
 	public void addItemOrUpdateWatchlist(WatchlistItem watchlistItem) throws DuplicateTitleException {
@@ -44,7 +50,16 @@ public class WatchlistService {
 	}
 	
 	public List<WatchlistItem> getWatchlist() {
-		return watchlistRepo.getItemList();
+		
+		List<WatchlistItem> itemList = watchlistRepo.getItemList();
+		itemList.forEach(item -> {
+			String rating = movieRatingServ.getRating(item.getTitle()).trim();
+			log.info("the Online-Rating: {}", rating);
+			if (rating.isEmpty() || rating != null ) {
+				item.setRating(rating);
+			}			
+		});
+		return itemList;
 		
 	}
 	
