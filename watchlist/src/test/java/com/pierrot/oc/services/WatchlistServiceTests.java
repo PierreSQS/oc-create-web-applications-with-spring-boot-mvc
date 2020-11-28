@@ -1,6 +1,7 @@
 package com.pierrot.oc.services;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -26,6 +27,9 @@ class WatchlistServiceTests {
 	
 	@Mock
 	private WatchlistRepository watchlistRepoMock;
+	
+	@Mock
+	private MovieRatingService movieRatingServMock;
 	
 	@InjectMocks
 	private WatchlistService watchlistServ;
@@ -55,6 +59,9 @@ class WatchlistServiceTests {
 		
 		List<WatchlistItem> mockItems = Arrays.asList(item1, item2, item3);		
 		when(watchlistRepoMock.getItemList()).thenReturn(mockItems);
+		// Check why this is not working 
+//		when(movieRatingServMock.getRating(any(String.class))).thenReturn(any(String.class));
+		when(movieRatingServMock.getRating(any(String.class))).thenReturn("6.5");
 		
 		// Act
 		List<WatchlistItem> results = watchlistServ.getWatchlist();
