@@ -23,7 +23,7 @@ public class MovieRatingService {
 
 			ResponseEntity<ObjectNode> entity = restTemp.getForEntity(apiUrl+title, ObjectNode.class);
 			ObjectNode jsonNode = entity.getBody();
-			return jsonNode.path("imdbRating").asText();
+			return jsonNode.path("imdbRating").asText().trim();
 
 		} catch (Exception e) {
 			log.info("Something went wront while calling OMDb API {}", e.getMessage());

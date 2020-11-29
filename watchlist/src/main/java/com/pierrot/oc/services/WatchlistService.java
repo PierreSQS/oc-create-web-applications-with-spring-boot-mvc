@@ -53,9 +53,9 @@ public class WatchlistService {
 		
 		List<WatchlistItem> itemList = watchlistRepo.getItemList();
 		itemList.forEach(item -> {
-			String rating = movieRatingServ.getRating(item.getTitle()).trim();
+			String rating = movieRatingServ.getRating(item.getTitle());
 			log.info("the Online-Rating: {}", rating);
-			if (rating.isEmpty() || rating != null ) {
+			if (!rating.isEmpty() & rating != null ) {
 				item.setRating(rating);
 			}			
 		});
