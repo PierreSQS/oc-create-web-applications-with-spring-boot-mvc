@@ -12,6 +12,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import com.pierrot.oc.entities.WatchlistItem;
+import com.pierrot.oc.repositories.impl.WatchlistRepositoryImpl;
+import com.pierrot.oc.repositories.interfaces.WatchlistRepository;
 
 class WatchlistRepositoryTest {
 
@@ -37,7 +39,7 @@ class WatchlistRepositoryTest {
 	// A workaround is stashed!!
 	@Test
 	void testCreateOrGetItemById() {
-		WatchlistRepository watchlistRepo = new WatchlistRepository(itemList);
+		WatchlistRepository watchlistRepo = new WatchlistRepositoryImpl(itemList);
 		WatchlistItem item = watchlistRepo.createOrGetItemById(null);
 		
 		// for some reason the Item ID is changing and 

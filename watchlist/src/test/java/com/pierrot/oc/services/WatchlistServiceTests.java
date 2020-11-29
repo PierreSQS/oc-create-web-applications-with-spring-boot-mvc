@@ -20,7 +20,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.pierrot.oc.entities.WatchlistItem;
 import com.pierrot.oc.exceptions.DuplicateTitleException;
-import com.pierrot.oc.repositories.WatchlistRepository;
+import com.pierrot.oc.repositories.interfaces.WatchlistRepository;
 
 @ExtendWith(MockitoExtension.class)
 class WatchlistServiceTests {
