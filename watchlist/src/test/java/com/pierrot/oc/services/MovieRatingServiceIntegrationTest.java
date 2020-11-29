@@ -2,11 +2,12 @@ package com.pierrot.oc.services;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeAll;
+import java.util.stream.Stream;
+
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 import org.springframework.beans.factory.annotation.Autowired;
 
 class MovieRatingServiceIntegrationTest {
@@ -14,28 +15,23 @@ class MovieRatingServiceIntegrationTest {
 	@Autowired
 	private MovieRatingService movieRatingServ;
 
-	@BeforeAll
-	static void setUpBeforeClass() throws Exception {
+		
+	static Stream<Arguments> getRatingParams() {
+		return Stream.of(
+		        Arguments.of("Le clan des siciliens", ""),
+		        Arguments.of("The Godfather", "9.2"));
 	}
-
-	@AfterAll
-	static void tearDownAfterClass() throws Exception {
-	}
-
+	
 	@BeforeEach
 	void setUp() throws Exception {
 		movieRatingServ = new MovieRatingService();
 	}
 
-	@AfterEach
-	void tearDown() throws Exception {
-	}
-
-	@Test
-	void testGetRating() {
-		String title = "the Sicilian Clan";
-		String rating = movieRatingServ.getRating(title);
-
-		assertEquals("7.4", rating);
+	@ParameterizedTest
+	@MethodSource("getRatingParams")
+	void testGetRating(String title, String rating) {
+		String onelineRating = movieRatingServ.getRating(title);
+		
+		assertEquals(rating, onelineRating);
 	}
 }
