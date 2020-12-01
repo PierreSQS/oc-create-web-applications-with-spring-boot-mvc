@@ -2,8 +2,6 @@ package com.pierrot.oc.services;
 
 import java.util.List;
 
-import org.springframework.stereotype.Service;
-
 import com.pierrot.oc.entities.WatchlistItem;
 import com.pierrot.oc.exceptions.DuplicateTitleException;
 import com.pierrot.oc.repositories.interfaces.WatchlistRepository;
@@ -11,7 +9,6 @@ import com.pierrot.oc.repositories.interfaces.WatchlistRepository;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-@Service
 public class WatchlistService {
 	
 	private WatchlistRepository watchlistRepo;

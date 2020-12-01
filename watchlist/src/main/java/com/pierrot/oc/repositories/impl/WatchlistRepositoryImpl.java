@@ -2,12 +2,9 @@ package com.pierrot.oc.repositories.impl;
 
 import java.util.List;
 
-import org.springframework.stereotype.Repository;
-
 import com.pierrot.oc.entities.WatchlistItem;
 import com.pierrot.oc.repositories.interfaces.WatchlistRepository;
 
-@Repository
 public class WatchlistRepositoryImpl implements WatchlistRepository {
 	
 	private List<WatchlistItem> itemList;
