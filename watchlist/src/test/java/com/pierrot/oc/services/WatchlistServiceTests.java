@@ -20,7 +20,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.pierrot.oc.entities.WatchlistItem;
 import com.pierrot.oc.exceptions.DuplicateTitleException;
-import com.pierrot.oc.repositories.interfaces.WatchlistRepository;
+import com.pierrot.oc.repositories.WatchlistRepository;
 
 @ExtendWith(MockitoExtension.class)
 class WatchlistServiceTests {
@@ -58,7 +58,7 @@ class WatchlistServiceTests {
 		WatchlistItem item3 = new WatchlistItem("Tatort", "4.1", "L", "Just forget!");
 		
 		List<WatchlistItem> mockItems = Arrays.asList(item1, item2, item3);		
-		when(watchlistRepoMock.getItemList()).thenReturn(mockItems);
+		when(watchlistRepoMock.findAll()).thenReturn(mockItems);
 		// Check why this is not working 
 //		when(movieRatingServMock.getRating(any(String.class))).thenReturn(any(String.class));
 		when(movieRatingServMock.getRating(any(String.class))).thenReturn("6.5");
@@ -76,14 +76,14 @@ class WatchlistServiceTests {
 	void testAddItemOrUpdateWatchlist() throws DuplicateTitleException {
 		// Arrange
 		WatchlistItem item1 = new WatchlistItem("the Godfather", "9.1", "H", "Marlon Brando is the best!");
-		when(watchlistRepoMock.findItemById(item1.getId())).thenReturn(null);
-		when(watchlistRepoMock.isItemByTitelExists(item1.getTitle())).thenReturn(false);
+		when(watchlistRepoMock.findById(item1.getId())).thenReturn(null);
+		when(watchlistRepoMock.findByTitle(item1.getTitle()).isEmpty()).thenReturn(false);
 		
 		// Act
 		watchlistServ.addItemOrUpdateWatchlist(item1);
 		
 		// Assert
-		verify(watchlistRepoMock).addItemOnList(item1);		
+		verify(watchlistRepoMock).save(item1);		
 	}
 
 }

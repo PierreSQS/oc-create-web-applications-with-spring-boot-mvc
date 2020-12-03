@@ -19,7 +19,6 @@ import lombok.Data;
 @Entity
 @Table(name = "MOVIES")
 public class WatchlistItem {
-	private static int index;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -38,7 +37,6 @@ public class WatchlistItem {
 	private String comment;
 	
 	public WatchlistItem() {
-		this.id = index++;
 	}
 
 	public WatchlistItem(String title, String rating, String priority, String comment) {

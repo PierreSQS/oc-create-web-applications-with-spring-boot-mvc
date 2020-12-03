@@ -6,8 +6,7 @@ import org.springframework.stereotype.Service;
 
 import com.pierrot.oc.entities.WatchlistItem;
 import com.pierrot.oc.exceptions.DuplicateTitleException;
-import com.pierrot.oc.repositories.interfaces.WatchlistRepository;
-
+import com.pierrot.oc.repositories.WatchlistRepository;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -26,17 +25,17 @@ public class WatchlistService {
 	}
 	
 	public void addItemOrUpdateWatchlist(WatchlistItem watchlistItem) throws DuplicateTitleException {
-		WatchlistItem existingItem = watchlistRepo.findItemById(watchlistItem.getId());
+		WatchlistItem existingItem = watchlistRepo.findById(watchlistItem.getId()).orElse(null);
 
 		if (existingItem == null) {
 			
-			if (watchlistRepo.isItemByTitelExists(watchlistItem.getTitle())) {
+			if ( !watchlistRepo.findByTitle(watchlistItem.getTitle()).isEmpty()) {
 //				errors.rejectValue("title", "DuPTitel", "Watchitem with the same Titel already exists");
 				throw new DuplicateTitleException("Item with the same Titel already exists!!!");
 			}
 
 			// initializing the data
-			watchlistRepo.addItemOnList(watchlistItem);
+			watchlistRepo.save(watchlistItem);
 		} else {
 			existingItem.setTitle(watchlistItem.getTitle());
 			existingItem.setRating(watchlistItem.getRating());
@@ -46,12 +45,17 @@ public class WatchlistService {
 	}
 	
 	public WatchlistItem createItemOnListOrGetItemByIdFromList(Integer id) {
-		return watchlistRepo.createOrGetItemById(id);
+		
+		if (id == null) {
+			return new WatchlistItem();
+		} else {
+			return watchlistRepo.findById(id).orElse(new WatchlistItem());
+		}
 	}
 	
 	public List<WatchlistItem> getWatchlist() {
 		
-		List<WatchlistItem> itemList = watchlistRepo.getItemList();
+		List<WatchlistItem> itemList = (List<WatchlistItem>) watchlistRepo.findAll();
 		itemList.forEach(item -> {
 			String rating = movieRatingServ.getRating(item.getTitle());
 			log.info("the Online-Rating: {}", rating);
@@ -64,6 +68,6 @@ public class WatchlistService {
 	}
 	
 	public int getWatchlistSize() {
-		return watchlistRepo.getItemListSize();
+		return (int) watchlistRepo.count();
 	}
 }
