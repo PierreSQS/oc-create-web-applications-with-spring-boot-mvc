@@ -23,14 +23,11 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Controller
 public class WatchlistController {
-	private List<WatchlistItem> watchItemsList;
-	
 	private WatchlistService watchlistServ;
 	
 	public WatchlistController(WatchlistService watchlistServ) {
 		super();
 		this.watchlistServ = watchlistServ;
-		watchItemsList = watchlistServ.getWatchlist();
 	}
 
 	@GetMapping("/watchlist")
@@ -42,7 +39,7 @@ public class WatchlistController {
 		Map<String, Object> model = new HashMap<>();
 
 		// fetching the data into the model
-		model.put("watchlistItems", watchItemsList);
+		model.put("watchlistItems", watchlistServ.getWatchlist());
 		model.put("numberOfMovies", watchlistServ.getWatchlistSize());
 
 		// Binding the model and the view
@@ -88,7 +85,7 @@ public class WatchlistController {
 		// initializing the model and fetching the watchlist Item
 		// from the Form into the model
 		Map<String, Object> model = new HashMap<>();
-		model.put("watchItemsList", watchItemsList);
+		model.put("watchItemsList", watchlistServ.getWatchlist());
 
 		// Redirect to /watchlist
 		RedirectView redirectView = new RedirectView("/watchlist");
