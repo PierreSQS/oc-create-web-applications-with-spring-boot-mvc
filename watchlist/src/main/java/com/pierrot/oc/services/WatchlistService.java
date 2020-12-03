@@ -25,7 +25,12 @@ public class WatchlistService {
 	}
 	
 	public void addItemOrUpdateWatchlist(WatchlistItem watchlistItem) throws DuplicateTitleException {
-		WatchlistItem existingItem = watchlistRepo.findById(watchlistItem.getId()).orElse(null);
+		
+		WatchlistItem existingItem = null;
+		
+		if (watchlistItem.getId() != null) {
+			existingItem = watchlistRepo.findById(watchlistItem.getId()).orElse(null);
+		}
 
 		if (existingItem == null) {
 			
