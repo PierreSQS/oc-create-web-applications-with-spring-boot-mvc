@@ -5,6 +5,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -76,8 +77,9 @@ class WatchlistServiceTests {
 	void testAddItemOrUpdateWatchlist() throws DuplicateTitleException {
 		// Arrange
 		WatchlistItem item1 = new WatchlistItem("the Godfather", "9.1", "H", "Marlon Brando is the best!");
+		List<WatchlistItem> watchList = new ArrayList<>();
 		when(watchlistRepoMock.findById(item1.getId())).thenReturn(null);
-		when(watchlistRepoMock.findByTitle(item1.getTitle()).isEmpty()).thenReturn(false);
+		when(watchlistRepoMock.findByTitle(item1.getTitle())).thenReturn(watchList);
 		
 		// Act
 		watchlistServ.addItemOrUpdateWatchlist(item1);
