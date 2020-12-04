@@ -77,16 +77,18 @@ class WatchlistServiceTests {
 	void testAddItemOrUpdateWatchlist() throws DuplicateTitleException {
 		// Arrange
 		WatchlistItem item1 = new WatchlistItem("the Godfather", "9.1", "H", "Marlon Brando is the best!");
+		WatchlistItem item2 = new WatchlistItem("Avatar", "8.5", "H", "The best Sci-Fi of the World!");
 		List<WatchlistItem> watchList = new ArrayList<>();
+		
 		watchList.add(item1);
 
 		when(watchlistRepoMock.findByTitle(item1.getTitle())).thenReturn(watchList);
 		
 		// Act
-		watchlistServ.addItemOrUpdateWatchlist(item1);
+		watchlistServ.addItemOrUpdateWatchlist(item2);
 		
 		// Assert
-		verify(watchlistRepoMock).save(item1);		
+		verify(watchlistRepoMock).save(item2);		
 	}
 
 }
