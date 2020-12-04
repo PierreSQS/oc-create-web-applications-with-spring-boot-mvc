@@ -78,7 +78,8 @@ class WatchlistServiceTests {
 		// Arrange
 		WatchlistItem item1 = new WatchlistItem("the Godfather", "9.1", "H", "Marlon Brando is the best!");
 		List<WatchlistItem> watchList = new ArrayList<>();
-		when(watchlistRepoMock.findById(item1.getId())).thenReturn(null);
+		watchList.add(item1);
+
 		when(watchlistRepoMock.findByTitle(item1.getTitle())).thenReturn(watchList);
 		
 		// Act
