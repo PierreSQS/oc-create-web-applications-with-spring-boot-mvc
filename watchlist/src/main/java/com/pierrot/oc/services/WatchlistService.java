@@ -39,13 +39,17 @@ public class WatchlistService {
 				throw new DuplicateTitleException("Item with the same Titel already exists!!!");
 			}
 
-			// initializing the data
+			// save the new Item
 			watchlistRepo.save(watchlistItem);
 		} else {
+			// update the existing Item
 			existingItem.setTitle(watchlistItem.getTitle());
 			existingItem.setRating(watchlistItem.getRating());
 			existingItem.setPriority(watchlistItem.getPriority());
 			existingItem.setComment(watchlistItem.getComment());
+			
+			// save the existing Item
+			watchlistRepo.save(existingItem);
 		}
 	}
 	
