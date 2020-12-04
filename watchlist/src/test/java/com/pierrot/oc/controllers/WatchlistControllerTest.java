@@ -55,7 +55,6 @@ class WatchlistControllerTest {
 		// To make the assertion at line 63 work (model().attribute("watchlistItem", expectedItem))
 		// and to prove that the assumption in Commit06 was wrong!!
 		WatchlistItem expectedItem = new WatchlistItem();
-		expectedItem.setId(0);
 		
 		mockMvc.perform(get("/watchlistItemForm"))
 			.andExpect(status().isOk())
