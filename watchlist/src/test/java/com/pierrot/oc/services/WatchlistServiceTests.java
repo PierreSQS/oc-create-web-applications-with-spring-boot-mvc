@@ -23,7 +23,7 @@ import com.pierrot.oc.entities.WatchlistItem;
 import com.pierrot.oc.exceptions.DuplicateTitleException;
 import com.pierrot.oc.repositories.WatchlistRepository;
 
-@ExtendWith(MockitoExtension.class)
+@ExtendWith(MockitoExtension.class) //Test with Mockito Runner!!!
 class WatchlistServiceTests {
 	
 	@Mock
