@@ -1,6 +1,7 @@
 package com.pierrot.oc.services;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -8,6 +9,7 @@ import static org.mockito.Mockito.when;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
@@ -74,7 +76,7 @@ class WatchlistServiceTests {
 	}
 	
 	@Test
-	void testAddItemOrUpdateWatchlist() throws DuplicateTitleException {
+	void testAddItemOrUpdateWatchlist_AddItem() throws DuplicateTitleException {
 		// Arrange
 		WatchlistItem item1 = new WatchlistItem("the Godfather", "9.1", "H", "Marlon Brando is the best!");
 		List<WatchlistItem> watchList = new ArrayList<>();
@@ -87,6 +89,40 @@ class WatchlistServiceTests {
 		
 		// Assert
 		verify(watchlistRepoMock).save(item1);		
+	}
+
+	@Test
+	void testAddItemOrUpdateWatchlistReturnException() throws DuplicateTitleException {
+		// Arrange
+		WatchlistItem item1 = new WatchlistItem("the Godfather", "9.1", "H", "Marlon Brando is the best!");
+		WatchlistItem item2 = new WatchlistItem("the Godfather", "9.1", "H", "Marlon Brando is the best!");
+		List<WatchlistItem> watchList = new ArrayList<>();
+		watchList.add(item2);
+		
+		when(watchlistRepoMock.findByTitle(item1.getTitle())).thenReturn(watchList);		
+	
+		// Act and Assert
+		Exception exception = assertThrows(DuplicateTitleException.class, () -> watchlistServ.addItemOrUpdateWatchlist(item1));
+		assertEquals("Item with the same Titel already exists!!!", exception.getMessage());
+		
+	}
+
+	@Test
+	void testAddItemOrUpdateWatchlist_UpdateItem() throws DuplicateTitleException {
+		// Arrange
+		WatchlistItem item1 = new WatchlistItem("the Godfather", "9.1", "H", "Marlon Brando is the best!");
+		item1.setId(1);
+		
+		WatchlistItem item2 = new WatchlistItem("the Avatar", "8.1", "H", "The best Sci-Fi of the world!");
+		List<WatchlistItem> watchList = new ArrayList<>();
+		watchList.add(item1);
+		
+		when(watchlistRepoMock.findById(any(Integer.class))).thenReturn(Optional.of(item2));
+//		Mockito.lenient().when(watchlistRepoMock.findById(any(Integer.class))).thenReturn(Optional.of(item2));
+		
+		watchlistServ.addItemOrUpdateWatchlist(item1);
+		
+		assertEquals(item1.getComment(), item2.getComment());
 	}
 
 }
